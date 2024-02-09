@@ -1,0 +1,618 @@
+kiosk_mode:
+  non_admin_settings:
+    hide_header: true
+    hide_menubutton: true
+    ignore_entity_settings: true
+  entity_settings:
+    - entity:
+        input_boolean.kiosk_mode: 'on'
+      hide_header: true
+    - entity:
+        input_boolean.kiosk_mode: 'off'
+      hide_header: false
+views:
+  - title: Home
+    type: custom:vertical-layout
+    badges: []
+    cards:
+      - square: false
+        type: grid
+        cards:
+          - type: custom:button-card
+            name: |
+              [[[
+                return states['sensor.dag'].state + ", " + states['sensor.datum'].state
+              ]]]
+            label: |
+              [[[
+                return new Date().toLocaleTimeString('nl-NL', { hour12: false, hour: '2-digit', minute: '2-digit'})
+              ]]]
+            show_label: true
+            styles:
+              grid:
+                - grid-template-areas: '"n" "l"'
+              card:
+                - background: none
+                - overflow: visible
+                - padding-left: 8px
+              name:
+                - justify-self: start
+                - font-size: 14px
+              label:
+                - justify-self: start
+                - font-size: 26px
+                - font-weight: 500
+          - type: custom:button-card
+            name: in
+            label: |
+              [[[ return states['weather.buienradar'].attributes.temperature
+              + '<span style="font-size:0.6em">°C</span>' ]]]
+            show_label: true
+            custom_fields:
+              icon: |
+                [[[
+                  var weather = states['weather.buienradar'].state;
+                  return '<img src="/local/images/weather/' + weather + '.svg" width="50" height="50">';
+                ]]]
+            styles:
+              grid:
+                - grid-template-areas: '"icon n" "icon l"'
+              card:
+                - overflow: visible
+                - background: none
+                - padding-right: 8px
+              name:
+                - justify-self: end
+                - font-size: 14px
+              label:
+                - justify-self: end
+                - font-size: 26px
+                - font-weight: 500
+              custom_fields:
+                icon:
+                  - justify-self: end
+                  - align-self: end
+                  - padding-right: 10px
+                  - margin bottom: '-11px'
+        columns: 2
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Kamers
+          - square: false
+            type: grid
+            cards:
+              - type: custom:button-card
+                name: Woonkamer
+                icon: mdi:sofa
+                entity: weather.buienradar
+                show_state: true
+                custom_fields:
+                  btn:
+                    card:
+                      type: custom:mushroom-chips-card
+                      chips:
+                        - type: template
+                          tap_action:
+                            action: toggle
+                          icon: mdi:lamp
+                          entity: switch.touwtjeslamp
+                          card_mod:
+                            style: |
+                              ha-card {
+                                --chip-background: {{ 'rgba(89, 180, 195, 1)' if is_state('sensor.touwtjeslamp', 'on') else 'rgba(89, 180, 195, 0.5)'}};
+                                padding: 5px!important;
+                                border-radius: 100px!important;
+                                
+                              }
+                        - type: template
+                          tap_action:
+                            action: toggle
+                          icon: mdi:television
+                          entity: media_player.samsung_woonkamer
+                          card_mod:
+                            style: |
+                              ha-card {
+                                --chip-background: {{ 'rgba(116, 226, 145, 1)' if is_state('media_player.samsung_woonkamer', 'on') else 'rgba(116, 226, 145, 0.5)'}};
+                                padding: 5px!important;
+                                border-radius: 100px!important;
+                                
+                              }
+                styles:
+                  grid:
+                    - grid-template-areas: '"n btn" "s btn" "i btn"'
+                    - grid-template-columns: 1fr min-content
+                    - grid-template-rows: min-content min-content 1fr
+                  img_cell:
+                    - justify-content: start
+                    - position: absolute
+                    - width: 100px
+                    - height: 100px
+                    - left: 0
+                    - bottom: 0
+                    - margin: 0 0 -30px -30px
+                    - background: '#FFCF96'
+                    - border-radius: 500px
+                  icon:
+                    - width: 60px
+                    - color: black
+                    - opacity: '0.6'
+                  card:
+                    - padding: 22px 8px 22px 22px
+                  custom_fields:
+                    btn:
+                      - justify-content: end
+                      - align-self: start
+                  name:
+                    - justify-self: start
+                    - align-self: start
+                    - font-size: 18px
+                    - font-weight: 500
+                    - color: black
+                  state:
+                    - min-height: 80px
+                    - justify-self: start
+                    - align-self: start
+                    - font-size: 14px
+                    - opacity: '0.7'
+                tap_action:
+                  action: navigate
+                  navigation_path: '#woonkamer'
+              - type: custom:button-card
+                name: Keuken
+                icon: mdi:countertop
+                entity: weather.buienradar
+                show_state: true
+                custom_fields:
+                  btn:
+                    card:
+                      type: custom:mushroom-chips-card
+                      chips:
+                        - type: template
+                          tap_action:
+                            action: toggle
+                          icon: mdi:ceiling-light-multiple-outline
+                          entity: light.bar_keuken
+                          card_mod:
+                            style: |
+                              ha-card {
+                                --chip-background: {{ 'rgba(255, 176, 176, 1)' if is_state('light.bar_keuken', 'on') else 'rgba(255, 176, 176, 0.5)'}};
+                                padding: 5px!important;
+                                border-radius: 100px!important;
+                                
+                              }
+                styles:
+                  grid:
+                    - grid-template-areas: '"n btn" "s btn" "i btn"'
+                    - grid-template-columns: 1fr min-content
+                    - grid-template-rows: min-content min-content 1fr
+                  img_cell:
+                    - justify-content: start
+                    - position: absolute
+                    - width: 100px
+                    - height: 100px
+                    - left: 0
+                    - bottom: 0
+                    - margin: 0 0 -30px -30px
+                    - background: '#80BCBD'
+                    - border-radius: 500px
+                  icon:
+                    - width: 60px
+                    - color: black
+                    - opacity: '0.6'
+                  card:
+                    - padding: 22px 8px 22px 22px
+                  custom_fields:
+                    btn:
+                      - justify-content: end
+                      - align-self: start
+                  name:
+                    - justify-self: start
+                    - align-self: start
+                    - font-size: 18px
+                    - font-weight: 500
+                    - color: black
+                  state:
+                    - min-height: 80px
+                    - justify-self: start
+                    - align-self: start
+                    - font-size: 14px
+                    - opacity: '0.7'
+                tap_action:
+                  action: navigate
+                  navigation_path: '#keuken'
+            columns: 2
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#woonkamer'
+            name: Woonkamer
+            icon: mdi:sofa
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:bubble-card
+                card_type: separator
+                name: Lampen
+                icon: mdi:lamp-outline
+                styles: |
+                  .separator-container div:last-child {
+                    opacity: 1!important;
+                  }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:button-card
+                name: Eetkamer
+                icon: mdi:ceiling-light
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: light.eettafel
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(246,215,118,1) 30%,
+                            rgba(255,255,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+              - type: custom:button-card
+                name: Touwtjeslamp
+                icon: mdi:lamp
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: light.touwtjeslamp
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(246,215,118,1) 30%,
+                            rgba(255,255,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+              - type: custom:button-card
+                name: Stalamp
+                icon: mdi:ceiling-light
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: light.stalamp
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(246,215,118,1) 30%,
+                            rgba(255,255,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+              - type: custom:button-card
+                name: Vensterbank
+                icon: mdi:lamp
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: light.vensterbank
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(246,215,118,1) 30%,
+                            rgba(255,255,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:bubble-card
+                card_type: separator
+                name: Media
+                icon: mdi:television
+                styles: |
+                  .separator-container div:last-child {
+                    opacity: 1!important;
+                  }
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:button-card
+                name: Samsung TV
+                icon: mdi:television
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: media_player.samsung_woonkamer
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(93,136,249,1) 30%,
+                            rgba(209,232,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: '#keuken'
+            name: Keuken
+            icon: mdi:countertop
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:bubble-card
+                card_type: separator
+                name: Lampen
+                icon: mdi:lamp-outline
+                styles: |
+                  .separator-container div:last-child {
+                    opacity: 1!important;
+                  }
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:button-card
+                name: Bar lampen
+                icon: mdi:ceiling-light
+                label: Woonkamer
+                show_label: true
+                show_state: false
+                entity: light.bar_keuken
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                state:
+                  - value: 'on'
+                    styles:
+                      card:
+                        - background: >-
+                            linear-gradient(90deg, rgba(246,215,118,1) 30%,
+                            rgba(255,255,255,1) 100%)
+                  - value: 'off'
+                    styles:
+                      card:
+                        - background: null
+                styles:
+                  icon:
+                    - width: 24px
+                    - color: black
+                  img_cell:
+                    - justify-self: end
+                    - width: 30px
+                    - height: 30px
+                  name:
+                    - justify-self: start
+                    - font-size: 18px
+                    - line-heigth: 40px
+                    - font-weight: 600
+                  label:
+                    - justify-self: start
+                    - font-size: 14px
+                    - font-weight: 500
+                  card:
+                    - padding: 18px
+      - type: custom:mushroom-chips-card
+        card_mod:
+          style: |
+            ha-card { --chip-background: none;}
+            :host {
+              z-index: 2;
+              position: fixed;
+              bottom: 0;
+              backgroud: #ffffff;
+              padding: 10px;
+              margin: 0 !important;
+              left: 50%;
+              transform: translateX(-50%);
+              width: calc(100% - 34px);
+              box-shadow: 0 0 40px #cccccc;
+            }
+        chips:
+          - type: menu
+          - type: spacer
+          - type: template
+            icon: mdi:home
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-test/0/
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-background: red;
+                }
+          - type: template
+            icon: mdi:cog
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-test/settings/
+          - type: template
+            icon: mdi:arrow-expand-all
+            entity: input_boolean.kiosk_mode
+            tap_action:
+              action: toggle
+  - title: settings
+    path: settings
+    icon: mdi:cog
+    theme: Rounded
+    badges: []
+    cards:
+      - type: custom:mushroom-title-card
+        title: Settings
+      - type: custom:mushroom-chips-card
+        card_mod:
+          style: |
+            ha-card { --chip-background: none;}
+            :host {
+              z-index: 2;
+              position: fixed;
+              bottom: 0;
+              backgroud: #ffffff;
+              padding: 10px;
+              margin: 0 !important;
+              left: 50%;
+              transform: translateX(-50%);
+              width: calc(100% - 34px);
+              box-shadow: 0 0 40px #cccccc;
+            }
+        chips:
+          - type: menu
+          - type: spacer
+          - type: template
+            icon: mdi:home
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard/home/
+          - type: template
+            icon: mdi:cog
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard/settings/
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-background: red;
+                }
+          - type: template
+            icon: mdi:arrow-expand-all
+            entity: input_boolean.kiosk_mode
+            tap_action:
+              action: toggle
