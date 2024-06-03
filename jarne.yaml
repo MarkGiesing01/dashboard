@@ -1,0 +1,65 @@
+template:
+  - sensor:
+      - name: "KMI - Berk pollen"
+        state: >
+          {% if states('sensor.home_birch_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_birch_level') == "red" %} Hoog
+          {% elif states('sensor.home_birch_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_birch_level') == "yellow" %} Laag
+          {% elif states('sensor.home_birch_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Bijvoet pollen"
+        state: >
+          {% if states('sensor.home_mugwort_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_mugwort_level') == "red" %} Hoog
+          {% elif states('sensor.home_mugwort_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_mugwort_level') == "yellow" %} Laag
+          {% elif states('sensor.home_mugwort_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Eiken pollen"
+        state: >
+          {% if states('sensor.home_oak_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_oak_level') == "red" %} Hoog
+          {% elif states('sensor.home_oak_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_oak_level') == "yellow" %} Laag
+          {% elif states('sensor.home_oak_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Els pollen"
+        state: >
+          {% if states('sensor.home_alder_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_alder_level') == "red" %} Hoog
+          {% elif states('sensor.home_alder_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_alder_level') == "yellow" %} Laag
+          {% elif states('sensor.home_alder_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Es pollen"
+        state: >
+          {% if states('sensor.home_ash_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_ash_level') == "red" %} Hoog
+          {% elif states('sensor.home_ash_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_ash_level') == "yellow" %} Laag
+          {% elif states('sensor.home_ash_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Gras pollen"
+        state: >
+          {% if states('sensor.home_grasses_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_grasses_level') == "red" %} Hoog
+          {% elif states('sensor.home_grasses_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_grasses_level') == "yellow" %} Laag
+          {% elif states('sensor.home_grasses_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
+      - name: "KMI - Hazelaar pollen"
+        state: >
+          {% if states('sensor.home_hazel_level') == "purple" %} Zeer hoog
+          {% elif states('sensor.home_hazel_level') == "red" %} Hoog
+          {% elif states('sensor.home_hazel_level') == "orange" %} Gemiddeld
+          {% elif states('sensor.home_hazel_level') == "yellow" %} Laag
+          {% elif states('sensor.home_hazel_level') == "green" %} Geen
+          {% else %} Onbekend
+          {% endif %}
